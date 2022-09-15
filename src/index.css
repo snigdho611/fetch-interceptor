@@ -16,9 +16,17 @@ code {
   flex-direction: column;
 }
 
-.main__container__content {
-  width: 100%;
+.main__header {
+  width: 90%;
+  margin: 0 auto;
   display: flex;
+  gap: 2rem;
+}
+
+.main__container__content {
+  width: 90%;
+  display: flex;
+  margin: 2rem auto;
 }
 
 .main__container__content__cell {
@@ -27,4 +35,11 @@ code {
   outline: 1px solid black;
   overflow-y: scroll;
   overflow-x: scroll;
+}
+
+.main__container__content__cell__row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin: 1.25rem 0.75rem;
 }
