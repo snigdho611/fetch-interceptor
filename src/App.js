@@ -1,6 +1,3 @@
-// import logo from "./logo.svg";
-// import "./App.css";
-import Main from "components/Main";
 import { useEffect, useState } from "react";
 import { interceptor } from "./intercept";
 
@@ -10,6 +7,7 @@ function App() {
 
   useEffect(() => {
     if (intercept) {
+      console.log(intercept)
       interceptor();
     }
   }, [intercept]);
@@ -26,20 +24,9 @@ function App() {
       });
   };
 
-  const onClickQuotes = () => {
-    fetch(`https://dummyjson.com/quotes?limit=10`, { method: "GET" })
-      .then((response) => response.json())
-      .then((JSON) => {
-        console.log(JSON);
-        return setData(JSON);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
 
   return (
-    <div>
+    <div className="main">
       <div>
         <button
           onClick={() => {
@@ -48,88 +35,44 @@ function App() {
         >
           Posts
         </button>
-        <button
-          onClick={() => {
-            onClickQuotes();
-          }}
-        >
-          Quotes
-        </button>
-        <input
-          type={"checkbox"}
-          value="intercept"
-          onChange={(e) => {
-            // console.log(e);
-            setIntercept(!intercept);
-          }}
-        />
+        <button value="intercept" onClick={(e) => { setIntercept(!intercept); }}>Intercept</button>
       </div>
-      <div>
-        {data &&
-          data.posts &&
-          data.posts.map((element, i) => {
-            return (
-              <div
-                key={i}
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "0.25rem",
-                  margin: "1.25rem 0.75rem",
-                }}
-              >
-                <span style={{ fontWeight: "bold", fontSize: "17px" }}>{element.title}</span>
-                <span>{element.body}</span>
-                <span>Tags: {element.tags && element.tags.join()}</span>
-              </div>
-            );
-          })}
-        {data &&
-          data.quotes &&
-          data.quotes.map((element, i) => {
-            return (
-              <div
-                key={i}
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "0.25rem",
-                  margin: "1.25rem 0.75rem",
-                }}
-              >
-                <span style={{ fontWeight: "bold", fontSize: "17px" }}>By: {element.author}</span>
-                <span style={{ fontStyle: "italic" }}>"{element.quote}"</span>
-              </div>
-            );
-          })}
-        {data &&
-          data.carts &&
-          data.carts.map((element, i) => {
-            return (
-              <table key={i} border="1px solid black">
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Title</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {element.products.map((item, i) => {
-                    return (
-                      <tr>
-                        <td style={{ textAlign: "center" }}>{item.id}</td>
-                        <td style={{ textAlign: "center" }}>{item.title}</td>
-                        <td style={{ textAlign: "center" }}>{item.quantity}</td>
-                        <td style={{ textAlign: "center" }}>{item.price}</td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            );
-          })}
+      <div>{intercept ? "Posts will now be rerouted to quotes" : null}</div>
+      <div className="main__container">
+        <div className="main__container__content">
+          <div className="main__container__content__cell">
+            {data && data.posts ? null : "Posts will appear here, none to show now"}
+            {data && data.posts && data.posts.map((element, i) => {
+              return (
+                <div
+                  key={i}
+
+                >
+                  <span style={{ fontWeight: "bold", fontSize: "17px" }}>{element.title}</span>
+                  <span>{element.body}</span>
+                  <span>Tags: {element.tags && element.tags.join()}</span>
+                </div>
+              );
+            })}</div>
+          <div className="main__container__content__cell">
+            {data && data.quotes ? null : "Quotes will appear here, none to show now"}
+            {data && data.quotes && data.quotes.map((element, i) => {
+              return (
+                <div
+                  key={i}
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "0.25rem",
+                    margin: "1.25rem 0.75rem",
+                  }}
+                >
+                  <span style={{ fontWeight: "bold", fontSize: "17px" }}>By: {element.author}</span>
+                  <span style={{ fontStyle: "italic" }}>"{element.quote}"</span>
+                </div>
+              );
+            })}</div>
+        </div>
       </div>
     </div>
   );
